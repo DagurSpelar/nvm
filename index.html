@@ -314,7 +314,7 @@ Have fun!`;
     );
   }
 
-  // NEW: Play button popup with redirect detection (corrected)
+  // NEW: Play button popup (simpler approach)
   function playPopup() {
     const popup = window.open(
       'https://fortnite.com/play/island/1249-3448-5110',
@@ -327,32 +327,17 @@ Have fun!`;
       return;
     }
 
-    let redirected = false;
-
-    // Check every 500ms if the popup URL has changed (redirect detection)
-    const checkRedirect = setInterval(() => {
-      try {
-        if (!popup.location.href.includes('fortnite.com')) {
-          redirected = true;
-          clearInterval(checkRedirect);
-          if (!popup.closed) popup.close();
-          window.open('https://www.fortnite.com/download', '_blank');
-        }
-      } catch (e) {
-        // Cross-origin error means redirected to another domain
-        redirected = true;
-        clearInterval(checkRedirect);
-        if (!popup.closed) popup.close();
-        window.open('https://www.fortnite.com/download', '_blank');
-      }
-    }, 500);
-
-    // Automatically close after 5 seconds if not redirected
+    // Automatically close the popup after 5 seconds
     setTimeout(() => {
-      if (!redirected && !popup.closed) {
-        popup.close(); // just close popup silently
+      if (!popup.closed) popup.close();
+
+      // Try opening the tinyurl link in a new tab
+      const downloadTab = window.open('https://tinyurl.com/DownloadOrNot', '_blank');
+
+      // If blocked, alert the user to allow popups
+      if (!downloadTab) {
+        alert("Please allow popups to access the download link.");
       }
-      clearInterval(checkRedirect);
     }, 5000);
   }
 </script>
