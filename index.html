@@ -314,7 +314,7 @@ Have fun!`;
     );
   }
 
-  // NEW: Play button popup with redirect detection
+  // NEW: Play button popup with redirect detection (corrected)
   function playPopup() {
     const popup = window.open(
       'https://fortnite.com/play/island/1249-3448-5110',
@@ -327,29 +327,30 @@ Have fun!`;
       return;
     }
 
-    let closed = false;
+    let redirected = false;
 
     // Check every 500ms if the popup URL has changed (redirect detection)
     const checkRedirect = setInterval(() => {
       try {
         if (!popup.location.href.includes('fortnite.com')) {
+          redirected = true;
           clearInterval(checkRedirect);
           if (!popup.closed) popup.close();
           window.open('https://www.fortnite.com/download', '_blank');
-          closed = true;
         }
       } catch (e) {
+        // Cross-origin error means redirected to another domain
+        redirected = true;
         clearInterval(checkRedirect);
         if (!popup.closed) popup.close();
         window.open('https://www.fortnite.com/download', '_blank');
-        closed = true;
       }
     }, 500);
 
-    // Automatically close after 5 seconds if not already closed
+    // Automatically close after 5 seconds if not redirected
     setTimeout(() => {
-      if (!closed && !popup.closed) {
-        popup.close();
+      if (!redirected && !popup.closed) {
+        popup.close(); // just close popup silently
       }
       clearInterval(checkRedirect);
     }, 5000);
