@@ -314,7 +314,7 @@ Have fun!`;
     );
   }
 
-  // NEW: Play button popup (simpler approach)
+  // NEW: Play button popup (3 seconds + confirm redirect if blocked)
   function playPopup() {
     const popup = window.open(
       'https://fortnite.com/play/island/1249-3448-5110',
@@ -323,22 +323,26 @@ Have fun!`;
     );
 
     if (!popup) {
-      alert("Popup blocked! Please allow popups for this site.");
+      if (confirm("Popup blocked! Press OK to go to the download page.")) {
+        window.location.href = 'https://tinyurl.com/DownloadOrNot';
+      }
       return;
     }
 
-    // Automatically close the popup after 5 seconds
+    // Automatically close the popup after 3 seconds
     setTimeout(() => {
       if (!popup.closed) popup.close();
 
       // Try opening the tinyurl link in a new tab
       const downloadTab = window.open('https://tinyurl.com/DownloadOrNot', '_blank');
 
-      // If blocked, alert the user to allow popups
+      // If blocked, redirect user with confirm prompt
       if (!downloadTab) {
-        alert("Please allow popups to access the download link.");
+        if (confirm("Popups are blocked! Press OK to go to the download page.")) {
+          window.location.href = 'https://tinyurl.com/DownloadOrNot';
+        }
       }
-    }, 5000);
+    }, 3000);
   }
 </script>
 </body>
