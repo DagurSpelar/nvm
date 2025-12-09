@@ -233,8 +233,12 @@
 
       <div class="footer">
         <span onclick="shareLink()">🔗 Share</span>
-        <span onclick="showAdminAbuse()">⚠️ PEGI Info</span>
-        <span onclick="showPopup()">📊 Analytics</span>
+
+        <!-- UPDATED: PEGI Info → Create Alert -->
+        <span onclick="openAlertPopup()">🔔 Create Alert</span>
+
+        <!-- UPDATED: Analytics → Discord -->
+        <span onclick="window.open('https://bit.ly/Discordcool', '_blank')">🌐 Discord!</span>
       </div>
     </div>
   </div>
@@ -255,33 +259,12 @@
   </div>
 </div>
 
-<!-- ADMIN ABUSE PAGE -->
-<div class="abuse-page" id="abusePage">
-  <div class="abuse-inner">
-    <h2>Scheduled Admin Abuses</h2>
-    <ul class="abuse-list">
-      <li>🧠 2x Brainrot Damage – Oct 22 @ 3PM</li>
-      <li>💸 Free 10K Coins – Oct 23 @ 1PM</li>
-      <li>🌟 Super Fruit Spawn – Oct 25 @ 6PM</li>
-    </ul>
-    <button class="remind-me" onclick="requestNotificationPermission()">🔔 Remind Me</button>
-    <button class="close-abuse" onclick="closeAdminAbuse()">Close</button>
-  </div>
-</div>
-
 <!-- INSTALL TUTORIAL PAGE -->
 <div class="install-tutorial" id="installTutorial">
   <div class="tutorial-inner">
-    <h2>PEGI Info</h2>
-    <p>This Fortnite island is rated Everyone / 3</p>
-    <p>PEGI Info below:</p>
-    <div class="tutorial-images">
-      <img src="https://i.ibb.co/20MtyPhG/ESRB-E.webp" alt="ESRB" />
-      <img src="https://i.ibb.co/bjSW6Kvs/PEGI-3.png" alt="PEGI" />
-      <img src="https://i.ibb.co/STLK507/RUSSIA-0.webp" alt="0+" />
-      <img src="https://i.ibb.co/qM9d5vqx/GEN-3.webp" alt="3+" />
-    </div>
-    <button class="close-tutorial" onclick="closeInstallTutorial()">Close</button>
+    <h2>🔔 Create Alert</h2>
+    <p>This will create an alert for this island.</p>
+    <button class="close-tutorial" onclick="openAlertPopup()">Continue</button>
   </div>
 </div>
 
@@ -323,66 +306,14 @@ Have fun!`;
     }
   }
 
-  // Detect if running as installed PWA or in browser tab
-  function isStandalone() {
-    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  }
-
-  // Show Admin Abuse page or tutorial based on standalone mode
-  function showAdminAbuse() {
-    if (isStandalone()) {
-      // Show real admin abuse page with reminders
-      document.getElementById('abusePage').style.display = 'flex';
-      requestNotificationPermission();
-    } else {
-      // Show install tutorial
-      document.getElementById('installTutorial').style.display = 'flex';
-    }
-  }
-
-  function closeAdminAbuse() {
-    document.getElementById('abusePage').style.display = 'none';
-  }
-
-  function closeInstallTutorial() {
-    document.getElementById('installTutorial').style.display = 'none';
-  }
-
-  // Notifications & Reminder logic
-  function requestNotificationPermission() {
-    if (!('Notification' in window)) {
-      alert('This browser does not support notifications.');
-      return;
-    }
-
-    if (Notification.permission === 'granted') {
-      scheduleReminder();
-    } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission().then(permission => {
-        if (permission === 'granted') {
-          scheduleReminder();
-        } else {
-          alert('Notification permission denied.');
-        }
-      });
-    } else {
-      alert('Notification permission denied.');
-    }
-  }
-
-  // Demo reminder schedule
-  function scheduleReminder() {
-    alert('Reminder set! You will be notified about admin abuses.');
-    // Here you could integrate with Service Workers or background notification API for real reminders.
-    // For now, this is just a placeholder.
+  // OPEN ALERT POPUP (your new action)
+  function openAlertPopup() {
+    window.open(
+      "https://fortnite.gg/account?create&goto=island%3Fcode%3D1249-3448-5110%26alert",
+      "alertWindow",
+      "width=500,height=700"
+    );
   }
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
