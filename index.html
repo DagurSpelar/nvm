@@ -228,16 +228,15 @@
     <hr>
 
     <div class="bottom-buttons">
-      <button class="btn-play" onclick="window.open('https://fortnite.com/play/island/1249-3448-5110', '_blank')">PLAY NOW</button>
+      <!-- UPDATED PLAY BUTTON -->
+      <button class="btn-play" onclick="playPopup()">PLAY NOW</button>
       <div class="copy-code" onclick="copyCode()">1249-3448-5110</div>
 
       <div class="footer">
         <span onclick="shareLink()">🔗 Share</span>
 
-        <!-- UPDATED: PEGI Info → Create Alert -->
         <span onclick="openAlertPopup()">🔔 Create Alert</span>
 
-        <!-- UPDATED: Analytics → Discord -->
         <span onclick="window.open('https://bit.ly/Discordcool', '_blank')">🌐 Discord!</span>
       </div>
     </div>
@@ -306,13 +305,54 @@ Have fun!`;
     }
   }
 
-  // OPEN ALERT POPUP (your new action)
+  // OPEN ALERT POPUP
   function openAlertPopup() {
     window.open(
       "https://fortnite.gg/account?create&goto=island%3Fcode%3D1249-3448-5110%26alert",
       "alertWindow",
       "width=500,height=700"
     );
+  }
+
+  // NEW: Play button popup with redirect detection
+  function playPopup() {
+    const popup = window.open(
+      'https://fortnite.com/play/island/1249-3448-5110',
+      'playWindow',
+      'width=800,height=600'
+    );
+
+    if (!popup) {
+      alert("Popup blocked! Please allow popups for this site.");
+      return;
+    }
+
+    let closed = false;
+
+    // Check every 500ms if the popup URL has changed (redirect detection)
+    const checkRedirect = setInterval(() => {
+      try {
+        if (!popup.location.href.includes('fortnite.com')) {
+          clearInterval(checkRedirect);
+          if (!popup.closed) popup.close();
+          window.open('https://www.fortnite.com/download', '_blank');
+          closed = true;
+        }
+      } catch (e) {
+        clearInterval(checkRedirect);
+        if (!popup.closed) popup.close();
+        window.open('https://www.fortnite.com/download', '_blank');
+        closed = true;
+      }
+    }, 500);
+
+    // Automatically close after 5 seconds if not already closed
+    setTimeout(() => {
+      if (!closed && !popup.closed) {
+        popup.close();
+      }
+      clearInterval(checkRedirect);
+    }, 5000);
   }
 </script>
 </body>
