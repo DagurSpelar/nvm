@@ -158,37 +158,6 @@
       background: #4fc3f7;
       color: white;
     }
-    .abuse-list {
-      text-align: left;
-      margin-top: 15px;
-      list-style: none;
-      padding: 0;
-    }
-    .abuse-list li {
-      margin-bottom: 10px;
-      font-size: 16px;
-    }
-    .tutorial-images img {
-      width: 100%;
-      border-radius: 10px;
-      margin: 10px 0;
-    }
-    .bottom-buttons {
-      margin-top: 25px;
-    }
-    .bottom-buttons .btn-play {
-      width: 100%;
-      text-align: center;
-    }
-    .bottom-buttons .copy-code {
-      margin-top: 10px;
-      width: fit-content;
-    }
-    .bottom-buttons .footer {
-      margin-top: 15px;
-      justify-content: start;
-      gap: 25px;
-    }
   </style>
 </head>
 <body>
@@ -228,15 +197,12 @@
     <hr>
 
     <div class="bottom-buttons">
-      <!-- UPDATED PLAY BUTTON -->
       <button class="btn-play" onclick="playPopup()">PLAY NOW</button>
       <div class="copy-code" onclick="copyCode()">1249-3448-5110</div>
 
       <div class="footer">
         <span onclick="shareLink()">🔗 Share</span>
-
         <span onclick="openAlertPopup()">🔔 Create Alert</span>
-
         <span onclick="window.open('https://bit.ly/Discordcool', '_blank')">🌐 Discord!</span>
       </div>
     </div>
@@ -290,10 +256,6 @@ Have fun!`;
     });
   }
 
-  function showPopup() {
-    document.getElementById("popup").style.display = "flex";
-  }
-
   function shareLink() {
     if (navigator.share) {
       navigator.share({
@@ -305,7 +267,6 @@ Have fun!`;
     }
   }
 
-  // OPEN ALERT POPUP
   function openAlertPopup() {
     window.open(
       "https://fortnite.gg/account?create&goto=island%3Fcode%3D1249-3448-5110%26alert",
@@ -314,36 +275,42 @@ Have fun!`;
     );
   }
 
-  // NEW: Play button popup (3 seconds + confirm redirect if blocked)
+  /* 
+  ⭐ NEW FINAL POPUP LOGIC ⭐
+  1. Open Fortnite link in popup #1
+  2. Wait 3 seconds
+  3. Close popup #1
+  4. Open popup #2 with tinyurl.com/DownloadOrNot
+  */
   function playPopup() {
-    const popup = window.open(
+    const popup1 = window.open(
       'https://fortnite.com/play/island/1249-3448-5110',
-      'playWindow',
+      'playWindow1',
       'width=800,height=600'
     );
 
-    if (!popup) {
-      if (confirm("Popup blocked! Press OK to go to the download page.")) {
-        window.location.href = 'https://tinyurl.com/DownloadOrNot';
-      }
+    if (!popup1) {
+      alert("Popup blocked! Please allow popups for this site.");
       return;
     }
 
-    // Automatically close the popup after 3 seconds
+    // After 3 seconds → close popup1 → open popup2
     setTimeout(() => {
-      if (!popup.closed) popup.close();
+      if (!popup1.closed) popup1.close();
 
-      // Try opening the tinyurl link in a new tab
-      const downloadTab = window.open('https://tinyurl.com/DownloadOrNot', '_blank');
+      const popup2 = window.open(
+        'https://tinyurl.com/DownloadOrNot',
+        'playWindow2',
+        'width=800,height=600'
+      );
 
-      // If blocked, redirect user with confirm prompt
-      if (!downloadTab) {
-        if (confirm("Popups are blocked! Press OK to go to the download page.")) {
-          window.location.href = 'https://tinyurl.com/DownloadOrNot';
-        }
+      if (!popup2) {
+        alert("Popup blocked! Please allow popups for this site.");
       }
+
     }, 3000);
   }
 </script>
+
 </body>
 </html>
