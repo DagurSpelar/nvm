@@ -7,7 +7,7 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-image: url('https://img1.hotstarext.com/image/upload/f_auto/sources/r1/cms/prod/3988/1739768433988-i');
+      background-image: url('https://i.etsystatic.com/32638493/r/il/c91956/3860037172/il_fullxfull.3860037172_snzy.jpg');
       background-size: cover;
       background-position: center;
       color: white;
@@ -158,6 +158,37 @@
       background: #4fc3f7;
       color: white;
     }
+    .abuse-list {
+      text-align: left;
+      margin-top: 15px;
+      list-style: none;
+      padding: 0;
+    }
+    .abuse-list li {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    .tutorial-images img {
+      width: 100%;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+    .bottom-buttons {
+      margin-top: 25px;
+    }
+    .bottom-buttons .btn-play {
+      width: 100%;
+      text-align: center;
+    }
+    .bottom-buttons .copy-code {
+      margin-top: 10px;
+      width: fit-content;
+    }
+    .bottom-buttons .footer {
+      margin-top: 15px;
+      justify-content: start;
+      gap: 25px;
+    }
   </style>
 </head>
 <body>
@@ -197,12 +228,15 @@
     <hr>
 
     <div class="bottom-buttons">
+      <!-- UPDATED PLAY BUTTON -->
       <button class="btn-play" onclick="playPopup()">PLAY NOW</button>
       <div class="copy-code" onclick="copyCode()">1249-3448-5110</div>
 
       <div class="footer">
         <span onclick="shareLink()">🔗 Share</span>
+
         <span onclick="openAlertPopup()">🔔 Create Alert</span>
+
         <span onclick="window.open('https://bit.ly/Discordcool', '_blank')">🌐 Discord!</span>
       </div>
     </div>
@@ -256,6 +290,10 @@ Have fun!`;
     });
   }
 
+  function showPopup() {
+    document.getElementById("popup").style.display = "flex";
+  }
+
   function shareLink() {
     if (navigator.share) {
       navigator.share({
@@ -267,6 +305,7 @@ Have fun!`;
     }
   }
 
+  // OPEN ALERT POPUP
   function openAlertPopup() {
     window.open(
       "https://fortnite.gg/account?create&goto=island%3Fcode%3D1249-3448-5110%26alert",
@@ -275,43 +314,20 @@ Have fun!`;
     );
   }
 
-  /* 
-  ⭐ NEW FINAL POPUP LOGIC ⭐
-  1. Open Fortnite link in popup #1
-  2. Wait 3 seconds
-  3. Close popup #1
-  4. Open popup #2 with tinyurl.com/DownloadOrNot
-  */
+  // UPDATED: Play button opens TinyURL launch page in popup
   function playPopup() {
-    const popup1 = window.open(
-      'https://fortnite.com/play/island/1249-3448-5110',
-      'playWindow1',
-      'width=800,height=600'
+    const launchPopup = window.open(
+      'https://TinyUrl.com/DancingPeterFortniteLaunch',
+      'launchPopup',
+      'width=900,height=700,top=100,left=100'
     );
 
-    if (!popup1) {
-      alert("Popup blocked! Please allow popups for this site.");
-      return;
-    }
-
-    // After 3 seconds → close popup1 → open popup2
-    setTimeout(() => {
-      if (!popup1.closed) popup1.close();
-
-      const popup2 = window.open(
-        'https://tinyurl.com/DownloadOrNot',
-        'playWindow2',
-        'width=800,height=600'
-      );
-
-      if (!popup2) {
-        alert("Popup blocked! Please allow popups for this site.");
+    if (!launchPopup) {
+      if (confirm("Popup blocked! Press OK to open the launch page in the current tab.")) {
+        window.location.href = 'https://TinyUrl.com/DancingPeterFortniteLaunch';
       }
-
-    }, 3000);
+    }
   }
 </script>
-
 </body>
 </html>
-
